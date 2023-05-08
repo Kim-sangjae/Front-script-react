@@ -1,0 +1,288 @@
+자바스크립트 0331
+
+
+
+<h1>뉴스레터</h1>
+
+
+<style>
+#form{
+    width: 20rem;
+}
+
+.form-group{
+    display: flex;
+}
+
+input{
+    padding: 0.5rem;
+    flex-grow: 1;
+}
+.hidden{
+    display: none;
+}
+
+</style>
+
+
+
+
+
+<form action="" id="form">
+<h1>뉴스레터</h1>
+<div class="form-gruop">
+<input type="text" value="john@example.com">
+<button type="submit">구독하기</button>
+</div>
+</form>
+
+<div id="success-message" class="hidden">
+    <h1>구독해주셔서 감사합니다</h1>
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi tempore quo esse quae ducimus veniam. Optio ullam consequuntur at commodi recusandae, sequi sit officia. Fuga eaque consectetur sed quisquam dolor.
+    </p>
+</div>
+
+
+<script>
+    var form = document.getElementById("form");
+    var successMessage = document.getElementById('success-message');
+
+
+    // 폼제출
+    form.addEventListener('submit',(e)=>{
+
+        e.preventDefault(); // 기본값을 실행하지 않는다 (지금은 폼을 제출하지 않는 역할)
+
+       
+        console.log(e); // e -> 이벤트 객체
+
+        // AJAX 요청 (서버에 데이터 전송)
+
+        form.classList.add("hidden");
+        successMessage.classList.remove("hidden");
+        
+    })
+
+</script>
+
+
+===============================================
+
+
+Live Search
+검색내용중 포함하는걸 띄워준다
+
+
+
+<h1>실시간 검색</h1>
+
+
+<style>
+.container{
+    width: 29rem;
+}
+
+#input{
+    padding: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#list{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.item{
+    padding: 0.5rem;
+}
+
+.hidden{
+    display: none;
+}
+
+</style>
+
+
+
+
+
+<div class="container">
+    <input type="text" id="input" placeholder="검색">
+
+    <ul id="list">
+        <li class="item">Guinness</li>
+        <li class="item">Heineken</li>
+        <li class="item">Budwiser</li>
+        <li class="item">Kloud</li>
+        <li class="item">Asahi</li>
+
+    </ul>
+
+</div>
+
+
+<script>
+    var input = document.getElementById("input");
+
+    // keyup : 키에서 손가락을 뗄 때 발생하는 이벤트
+    input.addEventListener('keyup', (e) => {
+
+        // attribute (value)
+        // console.log(input.value);
+        // 이벤트 핸들러안에서는 이벤트 객체로 접근하는게 좋다
+        console.log(e.target.value);
+
+        var value = e.target.value.toLowerCase();
+        var items = document.getElementsByClassName("item");
+
+        for(var i=0; i < items.length; i ++){
+
+            var textContent = items[i].textContent.toLowerCase();
+
+            if(textContent.includes(value)){
+                items[i].classList.remove("hidden");
+            }else{
+                items[i].classList.add("hidden");
+            }
+            
+        }
+
+        
+
+
+    })
+
+
+
+</script>
+
+
+
+
+
+==============================================
+
+
+<!-- Q1문제 -->
+
+<style>
+input{
+    width: 20rem;
+    height: 1.5rem;
+    margin-bottom: 0.5rem;
+    
+}
+.error{
+    margin: 0;
+    color: red;
+   
+}
+.hidden{
+    display: none;
+}
+
+button{
+    height: 2rem;
+}
+
+
+</style>
+
+
+
+
+
+
+
+<h1>Contact Form</h1>
+
+<form action="" id="form">
+<div>First name</div>
+<input type="text" placeholder="태민" id="input_first" >
+
+<div class="error hidden" id="errorf">First name is required</div>
+
+
+
+<div>Last Name</div>
+<input type="text" placeholder="Doe" id="input_last">
+
+<div class="error hidden" id="errorl">Last name is required</div>
+
+
+
+<div>E-mail</div>
+<input type="text" placeholder="johnDoe@example.com" id="input_email">
+
+<div class="error hidden"id="errore">E-mail is required</div>
+
+
+
+<div>
+<button type="submit">Submit</button>
+</div>
+
+
+
+</form>
+
+
+
+
+
+<script>
+var inputf = document.getElementById("input_first");
+var inputl = document.getElementById("input_last");
+var inpute = document.getElementById("input_email");
+
+var errorf = document.getElementById("errorf");
+var errorl = document.getElementById("errorl");
+var errore = document.getElementById("errore");
+
+var form = document.getElementById("form");
+
+
+
+
+
+form.addEventListener("submit", (e)=>{
+
+    e.preventDefault();// 기본값을 실행하지 않는다 (지금은 폼을 제출하지 않는 역할)
+       
+    
+    console.log(inputf.value)
+    console.log(inputl.value)
+    console.log(inpute.value)
+
+    
+
+    
+
+    if(inputf.value.trim() == ""){
+        errorf.classList.remove("hidden");
+        
+
+    } 
+
+    if(inputl.value.trim() == "") {
+
+        errorl.classList.remove("hidden");
+
+    } 
+    
+    if(inpute.value.trim() == "") {
+
+        errore.classList.remove("hidden");
+
+    }
+    
+
+})
+
+
+
+
+</script>

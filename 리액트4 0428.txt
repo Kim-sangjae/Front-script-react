@@ -1,0 +1,369 @@
+리액트4
+
+
+
+// 이벤트
+function Snippet(){
+
+  function handleClick(){
+
+    alert('lol');
+
+  }
+  // onClickEvent
+
+  return(
+    <>
+
+    <h2>이벤트처리</h2>
+    <button onClick={handleClick}>
+      Button
+    </button>
+    </>
+  )
+}
+
+
+=====================================================
+
+
+/*
+화면 업데이트
+
+1. useState Hook
+상단에 useState 임포트 해야함
+
+2. 리액트 라우터
+
+*/
+
+
+/*
+ userState Hook
+
+ const[state,setState] = useState(initialValue)
+
+ state : 컴포넌트 내의 변수
+ setState(newState) : state를 업데이트하는 메서드
+ initialValue : state의 초기값
+
+ */
+
+
+function Snippet(){
+  const[count,setCount] = useState(0);
+
+  return(
+    <>
+      <p>count: {count}</p>
+      <button onClick={()=>setCount(count+1)}>
+        Add
+      </button>
+    </>
+  )
+}
+
+
+
+
+===========================================================
+
+function Snippet(){
+
+
+// const[changed,setChange] = useState(false);
+    
+
+
+//  return(
+//   <>
+//     <h1>Subscribe button</h1>
+
+//     <button onClick={()=> setChange(!changed)}>
+//       {changed ? "구독" : "구독하기" }
+//     </button>
+
+//   </>
+
+//  )
+
+// }
+
+==========================================================
+=================================================================
+라우터
+react-router-dom 패키지 설치
+C:\Users\Administrator\Desktop\새 폴더\basic\react-basic>npm install react-router-dom
+
+설치 후 임포트
+import{BrowserRouter as Router, Routes, Route, Link, Outlet, useParams} from 'react-router-dom';
+
+--------------------------
+// 리액트 라우터(기본)
+
+//메인 컴포넌트
+function Snippet(){
+  return(
+    <Router>
+      <nav>
+        <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
+        <li>
+          <Link to="/Posts">Posts</Link>
+        </li>
+        </ul>
+      </nav>
+
+
+
+      {/* 매핑과 객체 */}
+      <Routes>
+        <Route path="/" element={<Home/>} />
+        <Route path="/about" element={<About/>} />
+        <Route path="/posts" element={<Posts/>} />
+        <Route path="post/:postId" element={<Post/>} />
+        <Route path="*" element={<NotFound/>} />
+      </Routes>
+
+
+    </Router>
+  )
+}
+
+//홈
+function Home(){
+  return <h1>Home</h1>
+}
+
+// About
+function Posts(){
+  return(
+    <>
+      <h1>Posts</h1>
+      <ul>
+        <li>
+          <Link to="/post/p0">Post 1</Link>
+        </li>
+        <li>
+          <Link to="/post/p1">Post 2</Link>
+        </li>
+      </ul>
+    </>
+  )
+}
+
+// 게시물 목록
+function Post(){
+  //useParams : url의 매개변수에 접근할 수 있다
+  //url의 param값 접근
+  const{postId} = useParams();
+
+  return(
+    <>
+      <h1>Title</h1>
+      <p>{postId}</p>
+    </>
+  )
+}
+
+// 게시물 상세보기
+function About(){
+  return <h1>About</h1>
+}
+
+// 404 페이지
+function NotFound(){
+  return <h1>404 Not Found</h1>
+}
+
+
+
+================================================================
+==================================================================
+인증이 필요한 라우터 AuthProvider
+
+
+
+
+// 메인 컴포넌트
+function Snippet(){
+  return(
+    <Router>
+
+      <AuthProvider>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+            <Link to="/posts">Posts</Link>
+            </li>
+          </ul>
+        </nav>
+
+
+    <AuthStatus/>
+    
+
+    <Routes>
+
+      <Route path="/" element={<Home/>}/>
+      <Route path="/posts" element={<Posts/>}/>
+
+      <Route path="/post/:postId" element={
+        
+        <AuthRequired>
+          <Post/>
+        </AuthRequired>
+
+        }/>
+
+      <Route path="*" element={<NotFound/>}/>
+
+    </Routes>
+
+      </AuthProvider>
+
+    </Router>
+  )
+}
+
+
+
+
+// AuthContext
+const AuthContext = createContext();
+
+
+
+
+// 유저데이터 관리
+// !!! 상위 컴포넌트의 state가 업데이트 되면
+//     하위 컴포넌트 들은 차례로 다시 렌더링 된다 !!!
+function AuthProvider({children}){
+
+  const[user,setUser] = useState(null);
+
+  const value = {user, setUser};
+
+
+  return(
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
+
+
+// 로그인 상태 확인
+function AuthStatus(){
+
+  const{user,setUser} = useContext(AuthContext);
+  console.log(setUser)
+
+
+  return user ? (
+    <p>
+      안녕하세요 {user} 님! {" "}
+      <button onClick={()=> setUser(null)}>
+        로그아웃
+      </button>
+    </p>
+  ):(
+    <p>로그인하세요</p>
+  );
+
+}
+
+
+// 인증 관리
+function AuthRequired({children}){
+  const{user,setUser} = useContext(AuthContext);
+
+
+  // 로그인 처리
+  function handleSubmit(e){
+    e.preventDefault(); //페이지 새로고침 방지
+
+    const formData = new FormData(e.target);
+
+
+    //AJAX ( 서버 요청 )
+
+
+    // user 업데이트
+    setUser(formData.get("username"));
+
+  }
+
+
+  if(!user){
+    //로그인화면
+    return (
+
+      <form onSubmit={handleSubmit}>
+        <h1>로그인</h1>
+        <input type="text" name ="username" required />
+        <button type="submit">로그인</button>
+      </form>
+
+    )
+  }
+  
+
+
+  // if조건문을 통과하면 자식 태그로 넘어간다
+  return children;
+}
+
+
+
+
+// 홈
+function Home(){
+  return <h1>Home</h1>
+}
+
+//게시물 목록
+function Posts(){
+  return(
+    <>
+      <h1>Posts</h1>
+      <ul>
+        <li>
+          <Link to="/post/p0">Post 1</Link>
+        </li>
+        <li>
+          <Link to="/post/p1">Post 2</Link>
+        </li>
+      </ul>
+    </>
+  )
+}
+
+//게시물 상세보기
+function Post(){
+  const {postId} = useParams();
+
+  return(
+    <>
+      <h1>Post</h1>
+      <p>{postId}</p>
+    </>
+  )
+}
+
+//404 페이지
+function NotFound(){
+  return <h1>404 NotFound</h1>
+}
+
+
+
+=========================================================

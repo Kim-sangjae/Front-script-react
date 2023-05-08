@@ -1,0 +1,258 @@
+리액트를 쓰기위해선 
+node.js 필요
+
+설치후
+node -v
+로 설치되었나 확인
+
+---------------------------------------------------------------
+리엑트 폴더만들기
+터미널 -> cmd -> 프로젝트 경로 로 이동 cd 경로
+->
+npx create-react-app react-basic (리액트 생성)
+설치완료되면 프로젝트에 react-basic이라는 폴더가 생김
+
+----------------------------------------------------------------
+서버 열기
+cd react-basic 으로 이동
+npm start 입력 ( 노드패키지 매니저 ) 하면 서버가 시작된다
+
+---------------------------------------------------------------
+public/index.html
+
+<title>React App</title>
+이 부분이 
+SPA
+single page application 
+// 화면을 이동할 때 한 페이지에서 계속 새로 로드한다
+
+
+===================================================
+src / App.js
+
+
+
+function App() {
+  return <Snippet />;
+ 
+}
+
+export default App;
+
+
+/*
+
+리액트 튜토리얼
+
+1. 리액트 기초
+2. 리액트와 ES6(자바스크립트 문법)
+3. JSX
+4. 컴포넌트
+5. 이벤트
+6. 화면 업데이트
+7. 데이터 요청
+
+
+할일 목록 만들기
+
+
+*/
+
+
+
+/*
+ 1. 리액트 기초
+
+ 1) 리액트란
+  UI 개발용 자바스크립트 라이브러리
+  페이스북이 개발
+  가장 인기있는 프론트앤드 프레임워크
+
+
+ 2) 리액트 특징
+  - 컴포넌트 기반
+  컴포넌트는 복잡한 UI를 설계하기 위해 사용하는 독립적이고 재사용 가능한 부품이다
+
+  - 선언적 문법
+  사용하기 쉽다
+
+
+ 3) 구조
+ SPA(Single Page Application) 구조이다
+ 자바스크립트를 사용하여 화면을 업데이트 한다.
+
+
+*/
+
+
+
+
+/*
+ 2. 리액트와 ES6
+
+ 구조분해 할당
+ 스프레드 연산자
+ let , const
+ Array.map
+ 기타 등등
+ 
+
+*/
+
+// Array.map
+// 배열의 가각의 아이템에 특정한 작업을 수행한다
+// 업데이트된 배열을 리턴한다
+
+// const numbers = [1,2,3];
+// const result = numbers.map((item,index) => {
+//   return item * 10; //작업수행부분
+
+// })
+
+// console.log(numbers);
+// console.log(result);
+
+
+// const beers = ["Guinness","Heineken","Budwiser"];
+
+// const result = beers.map((beer)=>{
+//   return beer.toUpperCase();
+// });
+
+// console.log(beers);
+// console.log(result);
+
+
+//////////////////////////////////////////////////////////////////
+/*
+  JSX(JavaScript Extension)
+  자바스크립트의 확장 문법
+  가상의 엘리먼트를 만들기 위해 사용한다
+
+  선언적 문법
+  일반 자바스크립트 객체로 변환된다.
+
+
+  1. JSX 기초
+  2. JSX Fragment
+  3. JSX에서 변수 출력하기
+  4. 조건부 렌더링
+  5. JSX에서 리스트 출력하기
+
+
+*/
+
+// function Snippet(){
+//   return(
+//     <form>
+//       <h1>Google</h1>
+//       <input
+//         type="search"
+//         className="class1 class2" //JSX 에서는 class가아니고 className
+//         style={{padding: "0.5rem", width:"20rem"}}
+//         placeholder="구글검색"
+//         autoComplete="off"
+//         />
+//     </form>
+//   )
+
+// }
+
+
+
+// function Snippet(){
+//   //JSX 에서는 트리가 하나의 동일한 엘리먼트로 감싸져야한다
+
+//   // <></> 
+//   // Fragment 가상의 태그 , 
+//   // 여러태그를 쓸때는 하나의 태그로 감싸주어야하는데
+//   // 그러한 불필요한 태그를 제거하기위해 빈 가상의 태그를 사용할 수 있다
+  
+//   return (
+//     <> 
+//       <h1>JSX Fragment</h1>
+//       <ul>
+//         <li>list item</li>
+//         <li>list item</li>
+//         <li>list item</li>
+//         <li>list item</li>
+//       </ul>
+//     </>    
+//   )
+// }
+
+
+
+
+
+// JSX에서 변수 출력하기
+// function Snippet(){
+
+//   let cat = {
+//     name : "치즈",
+//     age : 2,
+//     home : null,
+//     sound : function(){
+//       return "야옹"
+//     }
+//   }
+
+
+//   return(
+//     <ul>
+//       <li>이름 : {cat.name}</li>
+//       <li>나이 : {cat.age}</li>
+//       <li>집 : {cat.home}</li>
+//       <li>소리 : {cat.sound()}</li>
+//     </ul>
+//   )
+
+// }
+
+
+
+
+// 조건부 랜더링
+
+// function Snippet(){
+//   return(
+//     <>
+//       <h1>조건부 렌더링</h1>
+
+//       <hr/>
+
+//       <h3>&& (논리연산자 AND)</h3>
+//       <p>
+//         expr1 && expr2<br/>
+//         expr1이 참으로 간주되면 expr2를 렌더링한다
+//       </p>
+//       <p>{true && " 나는 보입니다 "}</p>
+//       <p>{null && " 나는 안보입니다 "}</p>
+
+//       <hr/>
+
+//     <h3>|| (논리연산자 OR)</h3>
+//     <p>
+//       expr1 || expr2 <br/>
+//       표현식 1이 참으로 간주되면 표현식 1을 렌더링한다 <br/>
+//       표현식 1이 거짓으로 간주되면 표현식2를 렌더링한다
+//     </p>
+//     <p>{"나는 보입니다1" || "나는 안보입니다"}</p>
+//     <p>{null || "나는 보입니다2"}</p>
+
+//     <hr/>
+
+//     <h3>? (삼항연산자)</h3>
+//     <p>
+//       조건 ? 표현식1 : 표현식2 <br/>
+//       조건이 참이면 표현식1을 렌더링 한다 <br/>
+//       조건이 거짓이면 표현식2를 렌더링 한다
+//     </p>
+//     <p>{true ? "조건이 참입니다" : "조건이 거짓입니다"}</p>
+//     <p>{false ? "조건이 참입니다" : "조건이 거짓입니다"}</p>
+
+//     </>
+//   )
+// }
+
+

@@ -1,0 +1,244 @@
+갤러리
+아래사진 눌렀을때
+메인사진으로 띄우기
+
+
+
+
+<h1>Gallery</h1>
+
+<style>
+#main{
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    background-color: #ddd;
+}
+
+/*  */
+
+.container{
+    display: flex;
+}
+
+.thumbnail{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 0.5rem;
+}
+
+
+
+/*  */
+.active{
+    outline: 2px solid #0bf;
+}
+
+
+</style>
+
+
+<img src="파이리.png" alt="" id="main">
+
+
+<div>
+    <img class="thumbnail active" src="파이리.png" alt="" onclick="jumpTo(0)">
+    <img class="thumbnail" src="마자용.png" onclick="jumpTo(1)">
+    <img class="thumbnail" src="잠만보.png" onclick="jumpTo(2)">
+</div>
+
+
+
+<script>
+    var thumbnails = document.getElementsByClassName('thumbnail');
+    var main = document.getElementById('main');
+    var previousIndex = 0;
+
+
+    // HTML의 이벤트 attribute
+    // onEventName="eventHandler()"
+
+    function jumpTo(thisIndex){
+        console.log('현재',thisIndex);
+        console.log('이전',previousIndex);
+         
+
+        // thisIndex : thumbnail 내에서 이벤트 타깃의 index값과 같다
+        // 썸네일의 소스를 메인 이미지에 전달
+        main.src=thumbnails[thisIndex].src;
+        
+        // 이전인덱스 active클래스 삭제
+        thumbnails[previousIndex].classList.remove('active');
+        
+        // 이벤트 타깃에 active 클래스 추가
+        thumbnails[thisIndex].classList.add('active');
+
+        // 이전 index값 구하기 - 순서가 중요
+        previousIndex = thisIndex;
+        
+
+    }
+	
+===================================================
+
+캐러셀
+옆으로 사진 넘기기
+
+
+
+<h1>Carousel</h1>
+
+<style>
+    *{
+        box-sizing: border-box;
+    }
+
+    .wrap{
+        width: 200px;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+
+
+    #container{
+        width: 600px;
+        height: 200px;
+        display: inline-flex;
+        transition: 0.2s;
+    }
+
+    .item{
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+    }
+
+
+    #prev, #next{
+        position: absolute;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+
+    #prev{
+        top: 0;
+        left: 0;
+    }
+    #next{
+        top: 0;
+        right: 0;
+    }
+
+
+
+    .indicator{
+        position: absolute;
+        bottom: 0.25rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    .dot{
+        display: inline-block;
+        width: 0.5rem;
+        height: 0.5rem;
+        background-color: #ddd;
+        border-radius: 50%;
+    }
+
+    
+
+
+    .hidden{
+        visibility: hidden;
+    }
+
+    .active{
+        background-color: #555;
+    }
+
+
+</style>
+
+
+
+<div class="wrap">
+
+    <div id="container">
+        <img class="item" src="파이리.png" alt="">
+        <img class="item" src="마자용.png" alt="">
+        <img class="item" src="잠만보.png" alt="">
+    </div>
+
+    <button id="prev" class="hidden" onclick="navigateTo(-1)">&#10094;</button>
+    <button id="next" onclick="navigateTo(1)">&#10095;</button>
+
+
+    <div class="indicator">
+        <span class="dot active"></span>
+        <span class="dot "></span>
+        <span class="dot "></span>
+    </div>
+
+</div>
+
+
+<script>
+    var container = document.getElementById('container');
+    var prev = document.getElementById('prev');
+    var next = document.getElementById('next');
+    var dots = document.getElementsByClassName('dot');
+    var imageWidth = 200;
+    var previousIndex = 0;
+    var thisIndex = 0;
+
+    function navigateTo(data){
+        thisIndex += data;
+        console.log(thisIndex);
+
+
+        // 이미지 움직이기
+        container.style.transform = `translateX(-${thisIndex * imageWidth}px)`
+
+
+        // 버튼 토글
+        if(thisIndex == 0){
+            prev.classList.add('hidden');
+        }else{
+            prev.classList.remove('hidden');
+        }
+
+
+        if(thisIndex == 2){
+            next.classList.add('hidden');
+        } else{
+            next.classList.remove('hidden');
+        }
+
+
+
+
+        //indicator
+        
+        console.log('이전인덱스',previousIndex);
+
+        dots[previousIndex].classList.remove('active'); 
+        dots[thisIndex].classList.add('active');
+
+        // 이전인덱스값 구하기 - 순서중요 확인해보기
+        previousIndex = thisIndex; 
+
+    }
+
+
+
+</script>

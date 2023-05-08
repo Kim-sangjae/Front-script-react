@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<!-- 
+    <h1>JavaScript와 HTML</h1>
+
+    <ul>
+        <li>window 객체</li>
+        <li>선택자</li>
+        <li>속성과 메서드</li>
+        <li>이벤트</li>
+        <li>캔버스 API</li>
+    </ul> -->
+    
+<!-- 
+<h1>window 객체</h1>
+<p>웹개발을 위한 도구모음</p>
+
+html에서 자바스크립트를 사용하려면 script태그를 사용
+
+<script>
+
+    // console.log(window) 
+    /*
+    
+    window 객체
+
+
+    1. 메세지 또는 컨펌 등
+    window.alert()
+    window.confirm()
+
+    
+    */
+
+    window.alert("저장되었습니다") // 알림창
+    window.confirm('제출하시겠습니까?') // 확인창
+
+
+    /*
+
+    2. 유저정보 획득
+    유저정보에 기반한 웹서비스를 개발할 때 사용된다.
+    예) 위치기반 서비스,모바일 또는 pc용 웹앱
+
+    window.navigator.geolocation
+    window.navigator.userAgent
+
+    */
+
+    console.log(window.navigator.userAgent); // 유저의 접속환경 확인가능
+    console.log(window.navigator.geolocation); // 유저 위치확인
+
+
+
+    
+
+    /*
+
+    3. 브라우저 기록
+    앱 내의 뒤로가기 버튼 만들기 등에 사용될 수 있다.
+
+
+    */
+    console.log(window.history); // history 정보중 length 는 페이지의 이동갯수
+
+
+
+
+    /*
+
+    4. 데이터 요청
+
+    window.fetch()
+    window.XMLHttpRequest()
+
+    */
+
+    console.log(window.fetch) // promise 객체로 반환한다
+    console.log(window.XMLHttpRequest)
+
+
+
+
+    /*
+
+    5. 웹 스토리지
+    브라우저에 데이터를 저장할 수 있도록 한다
+    예) 로그인 토큰, 테마, 장바구니 등등
+
+    window.document.cookie
+    window.localStorage
+    */
+
+    console.log(window.document.cookie) // 쿠키
+    console.log(window.localStorage) // 쿠키보다 더 좋은 스토리지
+
+
+
+
+
+
+    /*
+
+    6. 뷰 개발 (보여지는 화면)
+
+    window.document
+    window.document.documentElement
+    window.innerHeight
+
+    */
+
+    console.log(window.document); // HTML 문서
+    console.log(window.document.documentElement);
+    console.log(window.innerHeight); // viewport의 높이
+
+
+
+
+    
+
+
+</script> -->
+
+<!-- <h1>선택자</h1>
+
+<ul>
+    <li>id 선택자</li>
+    <li>class 선택자</li>
+    <li>children 선택자</li>
+</ul>
+
+<h1>id 선택자</h1>
+
+<ul>
+    <li id = "foo">foo</li>
+    <li>bar</li>
+    <li>baz</li>
+</ul>
+
+<script>
+    var foo = document.getElementById('foo');
+
+    console.log(foo);
+</script> -->
+
+
+<!-- <h1>class 선택자</h1>
+
+<ul>
+    <li class = "item">foo</li>
+    <li class = "item">bar</li>
+    <li class = "item">baz</li>
+</ul>
+
+<script>
+
+    var items = document.getElementsByClassName('item');
+
+    console.log(items); // HTMLCollection(3) [li.item, li.item, li.item]
+
+    console.log(items.length); // 3
+
+    console.log(items[1]); // bar
+
+
+</script> -->
+
+
+<!-- <h1>children 선택자</h1>
+
+<ul id="list">
+    <li>foo</li>
+    <li>bar</li>
+    <li>baz</li>
+</ul>
+
+
+<script>
+
+    var list = document.getElementById('list')
+
+    var items = list.children; // children 선택자
+
+    console.log(items); // HTMLCollection(3) [li, li, li]
+
+</script> -->
+
+
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+<!-- <h1>엘리먼트 속성</h1>
+<ul>
+    <li>attribute</li>
+    <li>classList</li>
+    <li>createElement</li>
+    <li>innerHTML</li>
+
+</ul> -->
+
+
+
+
+
+<!-- <h1>attribute</h1>
+<p>엘리먼트의 attribute</p>
+
+<input 
+type="text"
+id="input"
+name="q"
+style="padding: 0.5rem; width: 16rem;"
+value="구글 검색" >    
+
+<script>
+
+var input = document.getElementById('input')
+
+//attribute에 접근
+
+console.log(input.type); // text
+console.log(input.id); // input
+console.log(input.name); // q
+console.log(input.style.padding); // 0.5 rem
+console.log(input.style.width);// 16 rem
+
+
+// attribute 수정
+input.value = "네이버 검색"
+
+
+
+</script> -->
+
+
+
+
+<!-- <h1>classList</h1>
+<p>엘리먼트의 클래스 리스트를 저장한다</p>
+
+<style>
+    .text-italic{
+        font-style: italic;
+    }
+    .underline{
+        text-decoration: underline;
+    }
+    .font-bold{
+        font-weight: bold;
+    }
+</style>
+
+
+<ul>
+    <li id="foo" class="font-bold text-italic">foo</li>
+    <li>bar</li>
+    <li>baz</li>
+</ul>
+
+
+<script>
+    var foo = document.getElementById('foo');
+    console.log(foo.classList); // DOMTokenList(2) ['font-bold', 'text-italic', value: 'font-bold text-italic']
+
+    console.log(foo.classList[0]) // font-bold
+    console.log(foo.classList.length) // 2
+
+
+    // 클래스 이름 추가
+    foo.classList.add('underline');
+    console.log(foo.classList); // DOMTokenList(3) ['font-bold', 'text-italic', 'underline', value: 'font-bold text-italic underline']
+
+
+    // 클래스 이름 삭제
+    foo.classList.remove('font-bold');
+
+</script> -->
+
+
+
+
+<!-- <h1>createElement</h1>
+<p>새로운 엘리먼트를 생성한다</p>
+
+<ul id ="list">
+    <li>foo</li>
+    <li>bar</li>
+</ul>
+
+<script>
+
+var list = document.getElementById('list')
+
+var li =  document.createElement('li');
+
+
+// textContent : 엘리먼트의 텍스트 컨텐츠를 저장한다
+li.textContent ='baz'
+console.log(li);
+
+
+list.appendChild(li);  // list 엘리먼트(ul) 의 마지막 children 으로 추가
+
+</script> -->
+
+
+
+
+
+
+
+
+<!-- <h1>innerHTML</h1>
+<p>문자열의 형태로 tree를 저장한다</p>
+
+
+<div id="container">
+    <ul>
+        <li>foo</li>
+        <li>bar</li>
+        <li>baz</li>
+    </ul>
+</div>
+
+<script>
+    var container = document.getElementById('container')
+
+    console.log(container.innerHTML); 
+    //  <ul>
+    //    <li>foo</li>
+    //    <li>bar</li>
+    //    <li>baz</li>
+    //  </ul> 
+
+
+    console.log(typeof container.innerHTML); // string
+
+
+
+    // innerHTML 업데이트
+    container.innerHTML = `
+        
+        <ul>
+            <li>기네스</li>
+            <li>하이네켄</li>
+            <li>버드와이저</li>
+        </ul>
+    
+    ` // 1옆에 있는백틱 - 줄바꿈이가능
+
+
+    console.log(container.innerHTML); 
+
+
+        // <ul>
+        //     <li>기네스</li>
+        //     <li>하이네켄</li>
+        //     <li>버드와이저</li>
+        // </ul>
+
+
+
+
+</script> -->
+
+
+
+<!-- <h1>이벤트</h1>
+<p>
+웹페이지 내에서 유저의 행위
+예) 클릭, 스크롤, 터치 등
+
+</p>
+
+
+
+<button id="btn">Button</button>
+
+
+<script>
+    var btn = document.getElementById('btn');
+
+    // addEventListener(eventName, eventHandler)
+    btn.addEventListener('click', () => {
+        alert('lol')
+    })
+   
+
+
+</script> -->
+
+
+<!-- <h1>캔버스 API</h1>
+<p>HTML에서 자바스크립트를 이용해서 그래픽을 표현할 수 있다
+    예) 그래프 그리기, 사진 편집, 애니메이션, 웹 게임 등
+</p>
+
+
+<style>
+    #canvas{
+        background-color: #000;
+    }
+</style>
+
+<canvas id="canvas" width="300" height="200"></canvas>
+
+
+<script>
+    var canvas = document.getElementById('canvas'); // canvas 도화지
+    var ctx = canvas.getContext('2d'); // ctx 펜
+
+
+    // 얼굴
+    ctx.fillStyle = '#0af'; // 색상 채우기
+    
+    // fillRect(x,y,width,height) 색이채워진 사각형
+    ctx.fillRect(0, 100 , 100, 100); 
+
+
+
+    // 눈
+    ctx.fillStyle = '#000';
+    ctx.fillRect(20,120,20,20);
+    ctx.fillRect(60,120,20,20);
+
+    
+    // 입
+    ctx.fillStyle = '#000';
+    ctx.fillRect(20,160,10,10)
+    ctx.fillRect(20,170,60,10)
+    ctx.fillRect(70,160,10,10)
+
+
+
+
+</script> -->
+
+
+</body>
+</html>

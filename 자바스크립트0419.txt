@@ -1,0 +1,242 @@
+Scroll Indicator
+스크롤에 따라 게이지 증가
+
+
+
+<style>
+body{
+    min-height: 1500px;
+    text-align: center;
+}
+
+.scrollwrap{
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    background-color: aliceblue;
+    
+}
+
+#scroll{
+    background-color: rgb(2, 190, 150);
+    height: 10px;
+    width: 0%;
+    transition: 0.1s;
+    border-radius: 10px;
+
+}
+
+.wrap{
+
+margin-top: 100px;
+
+}
+
+
+
+
+
+</style>
+
+
+<div class="scrollwrap">
+<h1>Scroll Indicator</h1>
+<div id="scroll"></div>
+</div>
+
+<div class="wrap">  
+<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.lorem Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut reiciendis sit cupiditate maxime vitae molestias voluptates accusantium. Sunt reiciendis labore quidem eos officiis a, modi rem voluptatibus repellat, quisquam error!</p>
+<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.lorem Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut reiciendis sit cupiditate maxime vitae molestias voluptates accusantium. Sunt reiciendis labore quidem eos officiis a, modi rem voluptatibus repellat, quisquam error!
+    orem ipsum dolor sit amet consectetur, adipisicing elit.lorem Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut reiciendis sit cupiditate maxime vitae molestias voluptates accusantium. Sunt reiciendis labore quidem eos officiis a, modi rem voluptatibus repellat, quisquam error!
+    orem ipsum dolor sit amet consectetur, adipisicing elit.lorem Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut reiciendis sit cupiditate maxime vitae molestias voluptates accusantium. Sunt reiciendis labore quidem eos officiis a, modi rem voluptatibus repellat, quisquam error!
+</p>
+</div>
+
+
+
+<script>
+    var scrolled = document.getElementById("scroll");
+    
+
+    window.addEventListener('scroll',()=>{
+
+        
+
+        // 뷰포트의 높이
+        var clientHeight = document.documentElement.clientHeight;
+
+        // 문서 전체의 높이
+        var scrollHeight = document.documentElement.scrollHeight;
+    
+   
+        console.log('scroll' ,scrollHeight);
+        console.log('client' ,clientHeight);
+        console.log(scrollHeight - clientHeight);
+
+        height = scrollHeight - clientHeight;
+
+        var p = (document.documentElement.scrollTop/height)*100;
+
+        console.log(p);
+        scrolled.style.width=p+"%";
+       
+
+
+    })
+	
+	
+	
+
+=======================================================================================
+SPA
+single page application 
+// 화면을 이동할 때 한 페이지에서 계속 새로 로드한다
+
+
+
+
+<!-- SPA 앱 구조 만들어보기 -->
+
+<nav>
+    <ul>
+        <li>
+            <a href="#home">Home</a>
+        </li>
+        <li>
+            <a href="#posts">Posts</a>
+        </li>
+        <li>
+            <a href="#contact">Contact</a>
+        </li>
+    </ul>
+</nav>
+
+
+<div id="root"></div>
+
+
+
+
+
+<script>
+
+window.addEventListener('hashchange',(e)=>{
+    
+    // console.log(location);
+    // console.log(location.hash);
+
+    router(location.hash);
+
+})
+
+
+// 페이지가 로드 될때
+
+window.addEventListener('load',()=>{
+    router(location.hash);
+})
+
+
+
+
+
+
+
+
+// 요청 url과 적절한 페이지를 연결시키는 역할
+function router(hash){
+
+    var url = hash.substr(1); // substr로 앞에 #을 뺴준다
+    
+
+    var routes = [
+        {path:'home', element:Home},
+        {path:'posts', element:Posts},
+        {path:'post/2', element:Post},
+        {path:'contact', element:Contact}
+    ]
+
+
+    //요청 url과 일치하는 path를 가진 라우트의 엘리먼트를 화면에 렌더링
+    for (var i = 0; i < routes.length; i++){
+
+        if(routes[i].path === url){
+            document.getElementById('root')
+            .innerHTML=routes[i].element();
+        }
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+// 홈
+function Home(){
+     
+    return`
+    <h1>Home</h1>
+    <p>Welcome to my blog</p>
+`
+};
+
+
+// 게시글 목록 페이지
+function Posts(){
+    return `
+    <h1>Posts</h1>
+    <ul>
+        <li>
+            <a href="#post/2">Second post</a>
+       </li>
+        <li>
+            First post
+        </li>
+    </ul>
+`
+};
+
+
+// 게시글 상세보기
+function Post(){
+
+    // 필요할때 서버에 데이터를 요청한다
+
+    // 게시물 데이터
+    var DATA = {
+        id:2,
+        content: '시계는 살 수 있지만 시간은 살 수 없습니다.',
+        createdAt: '4월 19일 2023년'
+    }
+
+    return `
+        <h1>Second post</h1>
+        <small>
+            posted <i>${DATA.createdAt}</i>
+        </small>
+        <p>${DATA.content}</p>
+    `
+
+};
+
+
+// 컨택페이지
+function Contact(){
+    return`
+    <h1>Contact</h1>
+    <p>john@example.com</p>
+`
+};
+
+
+
+
+
+</script>

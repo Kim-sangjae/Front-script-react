@@ -1,0 +1,385 @@
+사이드바
+
+
+<style>
+#btn{
+    font-size: 2rem;
+    background-color:transparent;
+    cursor: pointer;
+    border: none;
+}
+
+#side-bar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 16rem;
+    background-color: #fff;
+    transition: 0.2s;
+    z-index: 1;
+}
+
+
+#side-bar h1{
+    text-align: center;
+}
+
+#overlay{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom:0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+#side-bar.hidden{
+    left: -16rem;
+}
+#overlay.hidden{
+    display: none;
+}
+
+
+</style>
+
+
+<button id="btn">&#9776</button>
+
+<nav id="side-bar" class="hidden">
+    <h1>Logo</h1>
+    <ul>
+        <li>Menu</li>
+        <li>Menu</li>
+        <li>Menu</li>
+    </ul>
+</nav>
+
+
+<div id="overlay" class="hidden"></div>
+
+<main>
+    <h1>Side Bar</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae quibusdam animi harum officiis, illum autem voluptatem, soluta corporis ex, inventore similique! Commodi, incidunt. Fugit vel cumque dignissimos ipsum quae officiis.</p>
+</main>
+
+
+<script>
+    var btn = document.getElementById('btn');
+    var sideBar = document.getElementById('side-bar');
+    var overlay = document.getElementById('overlay');
+
+
+    // 사이드바 나타나게 하기
+    btn.addEventListener('click',(e)=>{
+        sideBar.classList.remove("hidden");
+        overlay.classList.remove("hidden");
+
+    })
+    // 사이드바 숨기기
+   overlay.addEventListener('click',(e)=>{
+
+    sideBar.classList.add("hidden");
+    overlay.classList.add("hidden");
+
+   })
+
+
+
+
+</script>
+
+
+
+=====================================================================
+Drawer
+밑에서 올라오는 메뉴
+드래그기능을 통해 쓰는 메뉴
+
+
+<h1>Drawer</h1>
+<p>Add some darg event</p>
+
+<style>
+    #nav{
+        position: fixed;
+        left: 0;
+        top: 100vh;
+        width: 100%;
+        height: 100vh;
+        transition: top 0.3s;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+        border-radius: 1rem 1rem 0 0;
+        background-color: #fff;
+    }
+
+    #drawer-handle {
+        width: 100%;
+        padding: 1rem;
+        cursor: grab;
+        border: none;
+        background-color: transparent;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+</style>
+
+
+
+<nav id="nav" class="hidden">
+    <button id="drawer-handle">Drag me</button>
+    <ul>
+        <li>list item</li>
+        <li>list item</li>
+        <li>list item</li>
+        <li>list item</li>
+    </ul>
+
+</nav>
+
+<button id="open-btn" type="button">More</button>
+
+
+<script>
+    var nav = document.getElementById("nav");
+    var drawerHandle = document.getElementById("drawer-handle");
+    var openBtn = document.getElementById("open-btn")
+    var TOP;
+
+
+    //top // 소문자 top 는 window객체
+
+    openBtn.addEventListener('click',(e)=>{
+
+        nav.style.top ='20vh';
+
+    })
+
+    drawerHandle.addEventListener('touchmove',(e)=>{
+        console.log("터치중");
+
+        // 뷰포트 탑과 손가락의 거리
+        var clientY = e.touches[0].clientY; //clientY -> 뷰포트기준으로 거리를계산
+
+        console.log(clientY);
+
+        // innerHeight : 뷰포트의 높이
+        TOP = clientY / window.innerHeight*100;
+        console.log(TOP);
+
+        nav.style.top = TOP + 'vh';
+
+       
+    })
+
+    drawerHandle.addEventListener('touchend',(e)=>{
+
+    
+        if(TOP > 60){
+            
+            nav.style.top = '100vh';
+
+        }else{
+            nav.style.top='20vh';
+        }
+
+    })
+
+
+
+</script>
+
+
+
+===================================================
+Modal
+
+
+<h1>Modal</h1>
+
+<style>
+    #overlay{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+
+    #modal{
+        background-color: #fff;
+        margin: 100px auto 0;
+        max-width: 20rem;
+        padding: 1rem;
+        border-radius: 1rem;
+    }
+
+    #close-btn{
+        font-size: 2rem;
+        float: right;
+        background-color: transparent;
+        border: none;
+        color: #fff;
+        padding: 1rem;
+        cursor: pointer;
+    }
+
+    .hidden{
+        display: none;
+    }
+</style>
+
+<button id="btn">Open</button>
+
+<div id="overlay" class="hidden">
+    <button id="close-btn">&times;</button>
+    <div id="modal">
+        <h1>Heading</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut atque officia doloribus? Atque voluptatem perferendis excepturi dignissimos ea quo, numquam itaque distinctio at commodi. Obcaecati ex odio facere alias laboriosam.</p>
+    </div>
+</div>
+
+
+<script>
+    var overlay=document.getElementById('overlay');
+    var btn = document.getElementById('btn');
+    var closeBtn = document.getElementById("close-btn");
+
+    //모달 열기
+    btn.addEventListener('click',(e)=>{
+        overlay.classList.remove('hidden');
+    })
+    
+
+    //모달 닫기
+    window.addEventListener('click',(e)=>{
+        
+
+        console.log(e.target);
+
+        if(e.target == overlay || e.target == closeBtn){
+            overlay.classList.add('hidden');
+        }
+        
+    })
+
+    
+
+
+</script>
+
+
+==============================================
+
+
+<style>
+
+img {
+  width: inherit;
+  height: inherit;
+  object-fit: cover;
+  border-radius: 50px;
+  box-sizing: border-box;
+  border-style: none;
+}
+#container{
+ line-height: 50px;
+}
+
+button{
+    width: 250px;
+    height: 250px;
+    /* border-style: fill; */
+    padding: 0;
+    border-style: none;
+    background-color: #ffffff;
+}
+img:hover{
+    border: 1px solid black;
+}
+
+#modal{
+        
+        
+        margin: 100px auto 0;
+        max-width: 20rem;
+        padding: 1rem;
+        border-radius: 1rem;
+        
+    }
+
+
+
+#overlay{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .hidden{
+        display: none;
+    }
+</style>
+
+<h1>Q.Modal Gallery</h1>
+
+<div id="container">
+<button id="btn1"><img src="파이리.png" alt=""></button>
+<button id="btn2"><img src="마자용.png" alt=""></button>
+<button id="btn3"><img src="잠만보.png" alt=""></button>
+</div>
+<div id="overlay" class="hidden">
+    <div id="modal" class="hidden">
+        <img id="overimg" src="" alt="">
+    </div>
+</div>
+
+
+<script>
+    var overlay=document.getElementById('overlay');
+    var btn = document.getElementById('btn');
+    var modal = document.getElementById('modal');
+    var overimg = document.getElementById('overimg');
+
+  
+    btn1.addEventListener('click',(e)=>{
+        overlay.classList.remove('hidden');
+        modal.classList.remove('hidden');
+        overimg.setAttribute("src","파이리.png")
+
+    })
+    
+    btn2.addEventListener('click',(e)=>{
+        overlay.classList.remove('hidden');
+        modal.classList.remove('hidden');
+        overimg.setAttribute("src","마자용.png")
+    })
+
+    btn3.addEventListener('click',(e)=>{
+        overlay.classList.remove('hidden');
+        modal.classList.remove('hidden');
+        overimg.setAttribute("src","잠만보.png")
+    })
+
+
+    window.addEventListener('click',(e)=>{
+        
+
+        if(e.target == overlay){
+            overlay.classList.add('hidden');
+        }
+        
+    })
+
+
+
+
+</script>

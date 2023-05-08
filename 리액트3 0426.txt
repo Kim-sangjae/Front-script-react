@@ -1,0 +1,420 @@
+/*
+  컴포넌트(Component)
+
+  1. 컴포넌트 합성
+  2. props
+  3. children props
+  4. useContext Hook
+
+ */
+
+
+
+///1. 컴포넌트 합성
+
+function Content(){
+  return(
+    <>
+    <h2>고양이는 액체일까?</h2>
+
+    {/* video */}
+    
+    <img 
+    src="http://ntx.wiki/data/file/homour/thumb-3553719312_LzPdU7lv_6e16808da4eb8dc99d1f3e3d4858f23c21fc6d59_600x600.jpg"
+    alt=""
+    width="100%"/>
+    
+    </>
+  )
+}
+
+
+
+function Comments(){
+  return(
+    <ul>
+      <li>냥냥펀치!</li>
+      <li>냥냥펀치!</li>
+      <li>냥냥펀치!</li>
+    </ul>
+  )
+}
+
+
+
+function Suggested(){
+  return(
+    <ul>
+      <li>냥냥펀치!</li>
+      <li>냥냥펀치!</li>
+      <li>냥냥펀치!</li>
+    </ul>
+  )
+}
+
+
+
+function Snippet(){
+  return(
+    <>
+      <header>
+          <h1>YOUTUBE</h1>
+      </header>
+
+      <main>
+        <Content/>
+
+        <h2>댓글</h2>
+        <Comments/>
+      </main>
+
+      <aside>
+        <h2>추천영상</h2>
+        <Suggested/>
+      </aside>
+    </>
+  )
+}
+
+
+-----------------------------------------------------------------------------------------------
+/*
+  2. props
+  컴포넌트에 전달되는 데이터
+*/
+
+function Snippet(){
+
+  // 지역변수
+  const irishBeer = {
+    name : "기네스",
+    origin : "아일랜드",
+    available : false
+  }
+
+
+  return(
+
+    <>
+      <h1>맥주</h1>
+      <Beer beer={irishBeer}/>
+    </>
+  )
+
+}
+
+
+function Beer({beer}){
+ return(
+  <ul>
+    <li>이름 : {beer.name}</li>
+    <li>원산지 : {beer.origin}</li>
+    <li>판매중 : {beer.available ? "예" : "아니오"}</li>
+  </ul>
+ )
+
+}
+
+
+
+=====================================================
+=========================================================
+
+//Q,. 다음의 데이터를 사용해서 유튜브 페이지를 완성해 보세요
+// 영상 , 댓글 , 추천비디오 컴포넌트를 만들고 합성
+
+function Snippet(){
+  //DATA 라는 객체의 각각의 속성값으로 담겨있다
+  const DATA = {
+    video:{
+      id:"v0",
+      title:"고양이는 액체일까",
+      source:"http://ntx.wiki/data/file/homour/thumb-3553719312_LzPdU7lv_6e16808da4eb8dc99d1f3e3d4858f23c21fc6d59_600x600.jpg"
+    },
+
+    comments:[
+      {id:"c0",content:"1빠"},
+      {id:"c1",content:"2빠"},
+      {id:"c2",content:"3빠"}
+    ],
+
+    suggestedCideos:[
+      {id:'s0', title:"냥냥펀치1"},
+      {id:'s1', title:"냥냥펀치2"},
+      {id:'s2', title:"냥냥펀치3"},
+    ]
+  }
+
+
+
+  return(
+  <>
+  <h2>YOUTUBE</h2>
+
+  <Video v={DATA.video}/>
+  <Comments c ={DATA.comments}/>
+  <Suggest s={DATA.suggestedCideos} />
+
+  </>
+
+  )
+}
+
+
+
+
+
+
+function Video({v}){
+
+
+
+
+
+  return(
+    <>
+    <h2>{v.title}</h2>
+    <img src={v.source}></img>
+    </>
+  )
+  
+}
+
+
+function Comments({c}){
+
+console.log(c);
+return(
+
+  <>
+  <h2>댓글</h2>
+    <ul>
+      <li>{c[0].content}</li>
+      <li>{c[1].content}</li>
+      <li>{c[2].content}</li>
+    </ul>
+  </>
+
+)
+  
+}
+
+
+
+
+function Suggest({s}){
+
+
+const sList = s.map((ss)=>(
+
+<ul key={ss.id}>
+  <li>{ss.title}</li>
+</ul>
+
+))
+
+
+
+  return(
+    <>
+    <h2>추천비디오</h2>
+
+      {sList}
+
+    </>
+  )
+}
+
+
+=============================================================
+
+/*
+
+  children props
+  컴포넌트를 트리구조로 작성할 수 있다.
+
+*/
+
+
+function Layout({children}){
+
+return(
+  <>
+    <h1>Instagram</h1>
+    <nav>
+      <ul>
+        <li>Home</li>
+        <li>Posts</li>
+        <li>Profile</li>
+      </ul>
+    </nav>
+
+
+    <main style={{padding:"2rem 0"}}>
+
+      {children}
+
+    </main>
+
+    <footer>
+      <small>2023 &copy; Instagtam</small>
+    </footer>
+  </>
+)
+
+}
+
+
+
+function Article(){
+
+  return(
+    <>
+      <img
+        src="https://i.ytimg.com/vi/6CLpdVI8P8g/hqdefault.jpg"
+        alt=""
+        width="100%"
+        />
+
+        <p>
+          <b>볶음 bab </b>
+          냠냠냠냠냠냠냠냠👍😁
+        </p>
+
+        <small>1일 전</small>
+    </>
+
+  )
+
+
+}
+
+
+
+function Snippet(){
+  return(
+    
+    <Layout>
+      <Article/>
+    </Layout>
+
+  )
+}
+
+
+================================================================
+==================================================================
+
+
+///////////////////
+
+/*
+
+  4.useContext Hook
+  children 컴포넌트에 데이터를 전달 할 수 있다.
+  children 은 정해져있는 단어이다 바꿀 수 없다
+
+  임포트해야한다
+  import { createContext,useContext } from 'react';
+
+*/
+
+
+const AuthContext = createContext();
+
+
+//유저데이터를 관리하는 컴포넌트
+function AuthProvider({children}){
+
+  // 유저데이터
+  const value = { username:'bunny'}
+
+
+  return (              //value 는 고정
+    <AuthContext.Provider value={value}>  
+      {children}
+    </AuthContext.Provider>
+  ); //하위 children에서는 모두 접근이 가능하다
+}
+
+
+
+
+
+function Layout({children}){
+
+  const auth = useContext(AuthContext);
+
+  console.log(auth);
+
+
+
+  return(
+    <>
+      <h1>Instagram</h1>
+      <nav>
+        <ul>
+          <li>Home</li>
+          <li>Posts</li>
+          <li>Profile</li>
+        </ul>
+      </nav>
+
+      <p>안녕하세요 {auth.username} <b>님</b></p>
+  
+      <main style={{padding:"2rem 0"}}>
+  
+        {children}
+  
+      </main>
+  
+      <footer>
+        <small>2023 &copy; Instagtam</small>
+      </footer>
+    </>
+  )
+  
+  }
+  
+  
+  
+  function Article(){
+
+    const auth = useContext(AuthContext);
+  
+    return(
+      <>
+        <img
+          src="https://i.ytimg.com/vi/6CLpdVI8P8g/hqdefault.jpg"
+          alt=""
+          width="100%"
+          />
+  
+          <p>
+            <b>볶음 bab </b>
+            냠냠냠냠냠냠냠냠👍😁
+          </p>
+  
+          <small>1일 전</small>
+      </>
+  
+    )
+  
+  
+  }
+  
+  
+  
+  function Snippet(){
+    return(
+
+      <AuthProvider>
+      
+      <Layout>
+        <Article/>
+      </Layout>
+
+      </AuthProvider>
+  
+    )
+  }

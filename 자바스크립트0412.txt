@@ -1,0 +1,234 @@
+이미지 자동 움직이기
+setInterval
+
+<h1>Auto Albums</h1>
+
+
+<style>
+    *{
+        box-sizing: border-box;
+    }
+
+    .album{
+        width: 300px;
+        height: 300px;
+        position: relative;
+    }
+
+
+    #main{
+        width: 100%;
+        height: 100;
+        object-fit: cover;
+    }
+
+  
+
+
+    .container{
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        bottom: 1rem;
+        width: 100%;
+    }
+
+
+
+    .thumbnail{
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        padding: 0.25rem;
+    }
+
+
+    
+
+    .active{
+        outline: 2px solid #0bf;
+    }
+
+
+</style>
+
+
+
+<div class="album">
+
+    <!-- 메인이미지 -->
+    <img id="main" src="파이리.png" alt="">
+ 
+
+    <!-- 썸네일 -->
+    <div class="container">
+        <img class="thumbnail active" src="파이리.png" alt="">
+        <img class="thumbnail" src="마자용.png" alt="">
+        <img class="thumbnail" src="잠만보.png" alt="">
+    </div>
+
+</div>
+
+<script>
+ 
+ var thumbnail = document.getElementsByClassName("thumbnail");
+ var main = document.getElementById("main");
+ var thisIndex = 0;
+ var previousIndex = 0;
+
+
+
+ setInterval(navigate,2000);
+
+ function navigate(){
+   
+    thisIndex++;
+
+    // 마지막 인덱스보다 커질때 0 으로 다시 만든다
+    if(thisIndex == thumbnail.length){
+        thisIndex = 0;
+    }
+
+
+    thumbnail[previousIndex].classList.remove("active");
+    thumbnail[thisIndex].classList.add("active");
+
+
+    
+    // 메인이미지 소스를 현재 인덱스에 해당하는 썸네일의 소스로 변경
+    main.src = thumbnail[thisIndex].src;
+
+
+    // 이전 index
+    previousIndex = thisIndex;
+
+
+ }
+  
+
+
+
+
+</script>
+
+
+
+==============================================================
+=========================================================
+
+스크롤하면 엘리먼트 나타나게하기
+opacity
+
+<style>
+    .el{
+        opacity: 0;
+        transition: 0.5s;
+    }
+    .el.opacity-100{
+        opacity: 1;
+    }
+
+</style>
+
+
+
+<h1>뷰포트에 진입할 때 엘리먼트 나타나게 하기</h1>
+
+<h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. A repellat ab modi quis libero. Enim deserunt excepturi dicta repudiandae reiciendis possimus exercitationem minus sapiente, adipisci doloribus quis deleniti illo doloremque.</h1>
+<h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. A repellat ab modi quis libero. Enim deserunt excepturi dicta repudiandae reiciendis possimus exercitationem minus sapiente, adipisci doloribus quis deleniti illo doloremque.</h1>
+<h1 class="el">Lorem ipsum dolor sit amet consectetur adipisicing elit. A repellat ab modi quis libero. Enim deserunt excepturi dicta repudiandae reiciendis possimus exercitationem minus sapiente, adipisci doloribus quis deleniti illo doloremque.</h1>
+<h1 class="el">Lorem ipsum dolor sit amet consectetur adipisicing elit. A repellat ab modi quis libero. Enim deserunt excepturi dicta repudiandae reiciendis possimus exercitationem minus sapiente, adipisci doloribus quis deleniti illo doloremque.</h1>
+<h1 class="el">Lorem ipsum dolor sit amet consectetur adipisicing elit. A repellat ab modi quis libero. Enim deserunt excepturi dicta repudiandae reiciendis possimus exercitationem minus sapiente, adipisci doloribus quis deleniti illo doloremque.</h1>
+
+
+
+
+<script>
+    var el = document.getElementsByClassName('el');
+
+    window.addEventListener('scroll',(e)=>{
+        //뷰포트 높이
+        var viewPortHeight = window.innerHeight;
+
+        //뷰포트 탑과 엘리먼트 탑사이의 거리
+        // var y = el.getBoundingClientRect().y;
+        //getBoundingClientRect() = 4방향의 정보를 가지고있다
+
+        //여러개의 엘리먼트에 적용
+        for(var i =0; i <el.length; i++){
+            var y = el[i].getBoundingClientRect().y;
+
+            if(y<viewPortHeight-200){
+                el[i].classList.add('opacity-100');
+            }
+        }
+
+        
+
+    })
+
+
+
+</script>
+
+
+===============================================================
+드래그앤 드랍
+
+<h1>Drag and Drop</h1>
+
+<style>
+    #drop-zone{
+        border: 4px dashed #ddd;
+        width: 200px;
+        height: 100px;
+        padding: 1rem;
+    }
+
+</style>
+
+
+<div id="drop-zone">
+    <p>한 개 이상의 파일을 드래그 앤 드랍 하세요</p>
+</div>
+
+
+<script>
+    var dropZone =document.getElementById('drop-zone');
+
+    dropZone.addEventListener('dragover',dragOverHandler);
+    dropZone.addEventListener('drop',dropHandler);
+
+    function dragOverHandler(e){
+
+        //브라우저의 기본값을 실행하지 않기
+        e.preventDefault();
+
+        // console.log('드래그중')
+    }
+
+    // 브라우저는 기본으로 드롭하면 파일을 열어버린다
+
+    function dropHandler(e){
+
+        //브라우저의 기본값(파일열기)을 실행하지 않기
+        e.preventDefault();
+
+        // console.log(e.dataTransfer.files); - 지금은 쓰이지않는다 수정불가능한 리스트객체
+
+        //Array.from() : 순회 가능한 객체를 배열로 만든다
+        var files = Array.from(e.dataTransfer.files);
+        // console.log(files);
+
+        for(var i = 0; i <files.length; i++){
+            console.log(files[i].name);
+            alert(files[i].name + '제출되었습니다')
+        }
+
+        //AJAX 요청
+        // alert('제출되었습니다')
+
+        // console.log('드롭함')
+    }
+
+</script>

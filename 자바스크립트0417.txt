@@ -1,0 +1,465 @@
+메모장... 스토리지 사용
+어려움..
+
+<h1>Sticky Notes</h1>
+
+<style>
+    *{
+        box-sizing: border-box;
+    }
+
+    #container{
+        display: grid;
+        grid-template-columns: repeat(2,minmax(0,1fr));
+        gap: 1rem;
+        max-width: 640px;
+        margin: auto;
+    }
+
+    textarea{
+        background-color: #eee;
+        padding: 1rem;
+        height: 12rem;
+        resize: none;
+        border: 1px dashed gray;
+        outline: none;
+    }
+
+    #add-btn{
+        font-size: 4rem;
+        height: 12rem;
+        background-color: #aaa;
+        border: none;
+        cursor: pointer;
+        color: #fff;
+    }
+
+    #add-btn:hover{
+        background-color: #888;
+    }
+
+</style>
+
+
+<div id="container">
+    <button id="add-btn">+</button>
+</div>
+
+
+
+<script>
+    var container = document.getElementById('container');
+    var addBtn = document.getElementById('add-btn');
+
+    //DOMContentLoaded : 문서가 로드되는 이벤트
+    window.addEventListener('DOMContentLoaded',getNotes);
+    addBtn.addEventListener("click",addNote);
+
+
+    //////////////////////////////////////////////////////////////////////////
+
+    // 스토리지에서 객체정보(노트) 가져오기
+    function getNotes(){
+        var notes = getDocs(); // 로컬스토리지부터 데이터를 가져온다
+        
+        //노트엘리먼트를 만든다
+        for(var i = 0 ; i < notes.length; i++){
+            createNoteElement(notes[i].id,notes[i].content);
+        }
+    }
+
+
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    //  노트객체추가
+    function addNote(){
+
+        var notes = getDocs(); // 노트데이터가 없으면 빈배열을 리턴한다
+        var newNote = {id:'n' + Date.now(), content:''};
+
+        notes.push(newNote);
+        console.log(notes);
+
+        saveDoc(notes);
+
+        createNoteElement(newNote.id,newNote.content);
+        
+        
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    // 스토리지에 저장 key , value
+    function saveDoc(notes){
+        // JSON.stringify(객체) : 객체를 json 포맷(문자열)으로 변환한다
+        localStorage.setItem('notes',JSON.stringify(notes));
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    // 로컬스토리지에서 데이터를 가저온다
+    function getDocs(){
+        if(!localStorage.getItem('notes')){
+            // 노트 데이터가 없으면 빈배열을 저장한다
+            localStorage.setItem('notes','[]');
+        }
+
+        // JSON.parse(JSON포맷) : JSON 포맷(문자열)을 객체로 변환한다
+        return JSON.parse(localStorage.getItem('notes'));
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    // 노트 엘리먼트를 만드는 함수
+    function createNoteElement(id,content){
+
+        // 자바스크립트에서 엘리먼트(태그)를 추가하는 메서드
+        // document.createElement
+        var noteElement = document.createElement('textarea');
+
+        noteElement.value = content;
+
+        // 엘리먼트에 이벤트 리스너를 연결한다
+        // change: textarea의 value가 바뀌었을 떄
+        noteElement.addEventListener('change',(e)=>editNote(id,e.target.value)); 
+        // dblclick : 더블 클릭 했을때
+        noteElement.addEventListener('dblclick',(e)=>deleteNote(id,e.target)); 
+
+
+        // 엘리먼트를 HTML에 주입
+        // insertBefore 특정 엘리먼트 앞에 추가
+        // container.insertBefore - container 앞에 추가된다
+        container.insertBefore(noteElement,addBtn);
+        
+    }
+
+
+    //////////////////////////////////////////////////////////////////////
+
+
+    /////////////////////////////////////////////////////////////////////
+
+    // 노트 편집함수
+    function editNote(id,content){
+        
+        var notes = getDocs();
+
+        console.log(id,content);
+        
+
+        // 모든 노트객체를 확인하며 내용을 비교한다
+        for(var i=0; i<notes.length; i++){
+            
+            if(notes[i].id === id){
+                notes[i].content = content;
+            }
+
+        }
+
+
+        // 노트정보를 스토리지에 저장해준다
+        saveDoc(notes);
+
+
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////
+
+    // 노트 삭제 함수
+    function deleteNote(id,noteElement){
+
+        console.log(id,noteElement)
+
+        var notes = getDocs();
+
+        for( var i = 0 ; i < notes.length; i++){
+
+            if(notes[i].id === id){
+                notes.splice(i,1);
+            }
+        }
+        
+        
+        saveDoc(notes);
+
+
+        //container의 child (textarea) 를 삭제
+        container.removeChild(noteElement);
+
+       
+    }
+
+    //////////////////////////////////////////////////////////////////////
+
+
+
+</script>
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+block promotion
+다시보지않기 기능?
+
+
+<style>
+    #wrapper{
+       
+        background-color: rgb(226, 226, 226);
+        padding:20px;
+    }
+
+    button:hover{
+        cursor: pointer;
+    
+    }
+
+    #close{
+        float:right;
+        border-style: none;
+        background-color: transparent;
+    }
+
+
+    .hidden{
+        display: none;
+
+    }
+
+</style>
+
+
+
+
+<h1>Block promotion</h1>
+
+<div id="wrapper">
+    <button id="close">x</button>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    <button id="nomore">다시 보지 않기</button>
+</div>
+
+
+
+<script>
+    var closebtn = document.getElementById('close');
+    var wrapper = document.getElementById('wrapper');
+    var nomore = document.getElementById('nomore');
+
+    // var noProMotion = localStorage.getItem('NoPromotion');
+    // if(noProMotion!=null){
+    //     wrapper.classList.add('hidden');
+    // }
+
+
+    if(localStorage.getItem('NoPromotion')){
+        wrapper.classList.add('hidden');
+    }
+
+    // 저장된 시간과 현재시간을 비교하여 저장기간을 지정할수 있다!!
+
+
+
+    closebtn.addEventListener('click',()=>{
+
+        wrapper.classList.add('hidden');
+    })
+
+
+    nomore.addEventListener('click',()=>{
+
+        wrapper.classList.add('hidden');
+
+        localStorage.setItem('NoPromotion',new Date().toLocaleString());
+
+    })
+
+
+  
+
+</script>
+
+
+
+===================================================================
+===================================================================
+
+이미지 선택후 편집!!
+어려움!
+
+
+
+<style>
+    *{
+        box-sizing: border-box;
+    }
+
+    label{
+        display: block;
+    }
+
+    input{
+        width:100%
+    }
+
+    #canvas{
+        width: 100%;
+        height: 300px;
+        border: 1px solid;
+        object-fit:cover;
+    }
+
+
+</style>
+
+
+
+<h1>JS Image Editor</h1>
+
+<p>
+    <input type="file" name="" id="file-input">
+</p>
+
+<canvas id="canvas"></canvas>
+
+<nav>
+    <label for="brightness">Brightness</label>
+    <input type="range" name="brightness" id="brightness" min="0" max="200" value="100">
+
+    <label for="saturation">Saturation</label>
+    <input type="range" name="saturation" id="saturation" min="0" max="200" value="100">
+
+    <label for="inversion">Inversion</label>
+    <input type="range" name="inversion" id="inversion" min="0" max="100" value="0">
+
+    <label for="blur">Blur</label>
+    <input type="range" name="blur" id="blur" min="0" max="10" value="0">
+
+</nav>
+
+<script>
+    var canvas = document.getElementById("canvas"); // 캔버스
+    var ctx = canvas.getContext('2d'); // 펜
+
+    // 파일 업로드 처리
+    var fileInput = document.getElementById("file-input");
+
+    // 각각의 필터 처리
+    var brightnessInput = document.getElementById('brightness');
+    var saturationInput = document.getElementById('saturation');
+    var inversionInput = document.getElementById('inversion');
+    var blurInput = document.getElementById('blur');
+
+    // img 엘리먼트 생성
+    var imgElement = new Image();
+
+    // 필터 빈객체로 추가
+    var filter = {}
+
+    // 이미지를 업로드 했을 때
+    fileInput.addEventListener('change', (e)=>{
+        var file = e.target.files[0];
+        var src = URL.createObjectURL(file); //createObjectURL : blob객체의 url을 생성한다
+                                            // blob : 이미지나 비디오를 저장할때 사용하는 포맷형식
+        
+        
+        // blob 객체의 URL을 이미지의 소스로 사용
+        imgElement.src = src;
+
+        // console.log(src);
+    })
+
+
+    // 이미지를 캔버스에 로드
+    imgElement.addEventListener('load',(e)=>{
+        // 초기화
+        initilizeFilter();
+
+        // 캔버스에 사이즈맞추기
+        canvas.width = imgElement.width;
+        canvas.height = imgElement.height;
+
+        drawImage();
+    })
+
+
+    // 필터조정
+    brightnessInput.addEventListener('change',(e)=>{
+
+        applyFilter('brightness', e.target.value, '%');
+
+    })
+
+    saturationInput.addEventListener('change',(e)=>{
+
+    applyFilter('saturate',e.target.value, '%');
+
+    })
+
+    inversionInput.addEventListener('change',(e)=>{
+
+    applyFilter('invert',e.target.value, '%');
+
+    })
+
+    blurInput.addEventListener('change',(e)=>{
+
+    applyFilter('blur',e.target.value, 'px');
+
+    })
+
+
+    function applyFilter(name,value,unit){
+        
+        // 필터객체에 값을 저장한다
+        filter[name] = value + unit;
+     
+        var filter_list = [];
+
+
+        for(key in filter){ // 객체를 순회하는 반복문
+            filter_list.push(`${key}(${filter[key]})`)
+        }
+        
+        ctx.filter = filter_list.join(" ");
+
+        console.log(ctx.filter);
+
+
+        drawImage();
+
+    }
+
+
+
+
+    function drawImage(){
+        
+        // drawImage(이미지 , x , y) , 좌표값은 top,left가 기준이다.- padding 같은 것
+        ctx.drawImage(imgElement,0,0);
+
+    }
+
+
+    // 모든 필터 초기화 함수
+    function initilizeFilter(){
+
+        brightnessInput.value = 100;
+        saturationInput.value = 100;
+        inversionInput.value = 0;
+        blurInput.value = 0;
+
+    }
+
+
+
+</script>
+

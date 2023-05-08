@@ -1,0 +1,440 @@
+자바스크립트 0403
+
+FormData 라는 폼을 담는 형태도 있다
+function 을 통해 에러메세지만 처리하는 메서드를 생성해서 사용
+
+<!-- Q1문제 -->
+
+<style>
+input{
+    width: 20rem;
+    height: 1.5rem;
+    margin-bottom: 0.5rem;
+    
+}
+.error{
+    margin: 0;
+    color: red;
+   
+}
+.hidden{
+    display: none;
+}
+
+button{
+    height: 2rem;
+}
+
+
+</style>
+
+
+
+
+
+
+
+<h1>Contact Form</h1>
+
+<form action="" id="form">
+<div>First name</div>
+<input type="text" placeholder="태민" id="input_first" >
+
+<div class="error hidden" id="errorf">First name is required</div>
+
+
+
+<div>Last Name</div>
+<input type="text" placeholder="Doe" id="input_last">
+
+<div class="error hidden" id="errorl">Last name is required</div>
+
+
+
+<div>E-mail</div>
+<input type="text" placeholder="johnDoe@example.com" id="input_email">
+
+<div class="error hidden"id="errore">E-mail is required</div>
+
+
+
+<div>
+<button type="submit">Submit</button>
+</div>
+
+
+
+</form>
+
+
+
+
+
+<script>
+var inputf = document.getElementById("input_first");
+var inputl = document.getElementById("input_last");
+var inpute = document.getElementById("input_email");
+
+var errorf = document.getElementById("errorf");
+var errorl = document.getElementById("errorl");
+var errore = document.getElementById("errore");
+
+var form = document.getElementById("form");
+
+
+
+
+
+form.addEventListener("submit", (e)=>{
+
+    e.preventDefault();// 기본값을 실행하지 않는다 (지금은 폼을 제출하지 않는 역할)
+       
+    
+    console.log(inputf.value)
+    console.log(inputl.value)
+    console.log(inpute.value)
+
+    
+
+
+
+    function errorHandler(error,container){
+    if(error){
+        container.classList.remove("hidden");
+        container.textContent = error;
+    }else{
+        container.classList.add("hidden");
+    }
+}
+
+    
+    
+
+    if(inputf.value.trim() == ""){
+        errorHandler("이름을 입력하세요",errorf);
+
+
+    }else if(inputf.value.length<3){
+
+
+        errorHandler("이름은3글자이상",errorf);
+        
+    } else {
+
+        errorHandler(null,errorf);
+    }
+
+
+
+    if(inputl.value.trim() == "") {
+
+        errorHandler("성을 입력해주세요",errorl);
+
+    } else {
+
+        errorHandler(null,errorl);
+    }
+
+
+
+    
+    if(inpute.value.trim() == "") {
+
+        errorHandler("이메일을 입력해주세요",errore);
+
+    }else {
+
+        errorHandler(null,errore);
+    }
+    
+
+})
+
+
+
+
+
+
+</script>
+
+
+
+
+
+=============================================
+
+.match() :문자열이 있는지, 몇번째있는지 검사해준다
+
+정규식(regular expression) : 문자열을 검색하기 위한 패턴을 제공한다
+
+ex) 
+/[^a-z0-9_]/ 
+
+` ` : 백틱 을 쓰면 안에 ${} EL식 을 쓸 수있다
+
+
+=============================================================
+
+<!-- Q2 문제 -->
+
+<style>
+
+    .container{
+        width:16rem;
+    }
+
+    label{
+        display: block;
+    }
+
+    input{
+        padding:0.5rem;
+        width:100%;
+        box-sizing: border-box;
+    }
+
+    .success{
+        color:green;
+    }
+
+    .danger{
+        color:red;
+    }
+
+</style>
+
+
+
+
+<h1>Live validator for username</h1>
+
+<div class="container">
+
+    <label for="">Username</label>
+    <input type="text" id="input">
+    <p id="message-container">유저이름을 입력하세요</p>
+
+</div>
+
+
+
+<script>
+    var input = document.getElementById("input");
+    var messageContainer = document.getElementById("message-container");
+
+
+    input.addEventListener('keyup',(e)=>{
+
+        try{
+            var username = e.target.value;
+
+            if(!username){
+                throw '유저이름은 필수 입니다.'
+            }else if(username.length<5){
+                throw '유저이름이 너무 짧습니다'
+            }else if(username.match(/[^a-z0-9_]/)){
+                throw '알파벳 소문자, 숫자 , 그리고 언더스코어만 가능합니다.'
+            }
+
+            messageContainer.innerHTML = '<span class="success">사용가능한 유저이름</span>'
+
+        }catch(error){
+
+            messageContainer.innerHTML = `<span class="danger">${error}</span>`
+            console.log('에러:',error);
+
+        }
+
+
+    });
+
+</script>
+
+
+==============================================
+
+Navigation
+
+
+
+// ~.classList.toggle : 클래스가 있으면 삭제, 없으면 추가
+
+
+
+
+<style>
+body{
+    min-height: 1000px;
+}
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+.container{
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+}
+#btn{
+    border: none;
+    background-color: transparent;
+    font-size: 2rem;
+    cursor: pointer;
+}
+nav{
+    backdrop-filter: blur(8px);
+}
+nav ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+nav a{
+    display: block;
+    text-align: center;
+    padding: 0.5rem;
+    text-decoration: none;
+    color:#555;
+    border-top: 1px solid #ddd;
+}
+nav a:hover{
+    color: #000;
+}
+main{
+    margin-top: 4rem;
+}
+.hidden{
+    display: none;
+}
+
+
+</style>
+
+<header id="header">
+    <div class="container">
+        <button id="btn">&#9776;</button>
+    </div>
+    <nav class="hidden" id="nav">
+        <ul>
+            <li>
+                <a href="#">Link</a>
+            </li>
+            <li>
+                <a href="#">Link</a>
+            </li>
+            <li>
+                <a href="#">Link</a>
+            </li>
+        </ul>
+    </nav>
+
+</header>
+
+<main>
+    <h1>Top navigation</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati at repudiandae, nobis in nam quos? Pariatur quis voluptatibus ea molestias impedit ipsa facere beatae, aliquid magni eveniet repellendus odio ratione!</p>
+</main>
+
+
+
+<script>
+    var btn = document.getElementById("btn");
+    var nav = document.getElementById("nav")
+    btn.addEventListener("click",(e)=>{
+
+        nav.classList.toggle("hidden");
+
+    })
+
+
+    // window : 범위(화면전체)
+    window.addEventListener('click',(e)=>{
+        var click = e.target
+
+        // 화면전체중에 버튼이 아닌곳을 클릭했을 때 클래스 추가
+        if(click != btn){
+            nav.classList.add("hidden");
+        }
+    })
+
+
+</script>
+
+
+
+
+
+===================================================
+
+
+
+<!-- Q1.문제 -->
+
+<style>
+
+body{
+    margin: 0;
+    min-height: 1500px;
+}
+
+#header{
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    
+    text-align: center;
+
+}
+
+main{
+    min-height: 500px;
+    background: linear-gradient(to right, rgb(186, 209, 209), rgb(0, 173, 216));
+}
+
+.nonescroll{
+    background-color:transparent ;
+
+}
+.scroll{
+    background-color: white;
+    transition: background-color 0.5s;
+}
+
+</style>
+
+<header id="header" class="nonescroll">
+
+    <h3>Transparent NavBar</h3>
+
+</header>
+
+<main>
+
+</main>
+
+
+<script>
+
+
+
+window.addEventListener("scroll",(e)=>{
+    var scroll = document.getElementById("header")
+
+    console.log(window.scrollY)
+
+    if(window.scrollY > 110){
+
+        scroll.classList.add("scroll");
+    }else{
+
+        scroll.classList.remove("scroll")
+    }
+
+});
+
+</script>
