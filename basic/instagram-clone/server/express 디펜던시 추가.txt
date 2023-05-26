@@ -1,0 +1,5 @@
+instagram-clone
+\server
+로 이동 후 
+
+npm install compression cors dotenv express-validator helmet http-errors jsonwebtoken luxon mongoose morgan multer passport passport-jwt
