@@ -22,7 +22,6 @@ const userSchema = new Schema({
 
 
 // 컬렉션 조인(JOIN)과 관련 되어있다
-// 화이팅!!
 userSchema.virtual('isFollowing',{
     ref : 'Follow',
     localField : '_id',
@@ -38,7 +37,7 @@ userSchema.methods.generateJWT = function(){
 }
 
 // 비밀번호 암호화
-userSchema.method.setPassword = function(password){
+userSchema.methods.setPassword = function(password){
     // 비밀번호 암호화에 사용되는 키
     this.salt = crypto
         .randomBytes(16).toString("hex");

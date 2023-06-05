@@ -1,0 +1,28 @@
+instagram-clone
+\server
+로 이동 후 
+
+node seed mongodb://127.0.0.1:27017/instagram_clone_db
+
+
+
+
+package.json 안에 스크립트에 서버시작 알림
+
+ "scripts": {
+    "start": "node ./bin/www",
+    "devstart" : "nodemon ./bin/www" --> 추가
+  },
+
+
+
+npm run devstart
+
+실행후
+
+post맨 들어가서 
+Workspace -> myworkspace ( 이름변경 ) -> add request 후  주소작성 localhost:3000/api
+
+
+몽고db 에 데이터를 저장하면
+자동으로  _id 값이 생긴다 (데이터의 번호 라고 생각하면 됌)
