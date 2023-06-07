@@ -26,3 +26,13 @@ Workspace -> myworkspace ( 이름변경 ) -> add request 후  주소작성 local
 
 몽고db 에 데이터를 저장하면
 자동으로  _id 값이 생긴다 (데이터의 번호 라고 생각하면 됌)
+
+
+
+
+
+////
+유저 업데이트 할때는
+내 로그인 정보가 필요하므로
+Authorization 탭에서 bearer token( json 토큰) 부분에 로그인할때 등록된 토큰을 입력해주어서
+바꾸려는 유저의 정보를 명시해주어야 한다.
