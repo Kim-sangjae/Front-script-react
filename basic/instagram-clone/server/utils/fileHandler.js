@@ -10,7 +10,8 @@ module.exports = function fileHandler(dest) {
     return multer({
         
         //storage
-        storate : multer.diskStorage({
+        storage : multer.diskStorage({
+            
             // 파일의 저장 경로를 설정
             destination : (req,file,cb) =>{
             cb(null, `${__dirname}/../files/${dest}/`);

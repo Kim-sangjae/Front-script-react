@@ -6,7 +6,44 @@ const fileHandler = require('../utils/fileHandler');
 
 
 // 피드 가져오기
-exports.feed = async(req,res,next) =>{};
+exports.feed = async(req,res,next) =>{
+    try{
+        // follow 컬렉션중 팔로워가 로그인 유저인 도큐먼트
+        const follows = await Follow.find({follower:req.user._id});
+
+        // follows 에서 following 값만 추출하여 리스트를 생성
+        // 로그인 유저가 팔로우하는 유저들의 id 리스트
+        const followings = follows.map(follow => follow.following);
+
+        const where = {author:[...followings, req.user.id]} // 검색조건
+        const limit = req.query.limit || 5; 
+        const skip = req.query.skip || 0;
+
+
+        const articleCount = await Article.count(where); // 조건에 맞는 게시물 개수
+        const articles = await Article
+        .find(where)
+        .populate({
+            path : 'author',
+            select : 'username avatar'
+        })
+        .populate({
+            path : 'isFavorite'
+        })
+        .populate({
+          path : 'commentCount'  
+        })
+        .sort({created:'desc'})
+        .skip(skip)
+        .limit(limit)
+
+        res.json({articles,articleCount});
+
+
+    } catch (error){
+        next(error)
+    }
+};
 
 
 // 게시물 가져오기
@@ -41,6 +78,8 @@ exports.find = async(req,res,next) =>{
     }
 };
 
+
+
 // 게시물 한개 가져오기
 exports.findOne = async(req,res,next) =>{
     try{
@@ -73,10 +112,75 @@ exports.findOne = async(req,res,next) =>{
 
 
 // 게시물 생성
-exports.create = [];
+exports.create = [
+    fileHandler('articles').array('photos'),
+    async (req, res, next) => {
+      try {
+        
+        const files = req.files;
+  
+        if (files.length < 1) {
+          const err = new Error('File is required');
+          err.status = 400;
+          throw err;
+        }
+  
+        const photos = files.map(file => file.filename);
+  
+        const article = new Article({
+          photos,
+          description: req.body.description,
+          author: req.user._id
+        });
+  
+        await article.save();
+  
+        res.json({ article });
+  
+      } catch (error) {
+        next(error)
+      }
+    }
+  ]
+
+
+
+
 
 // 게시물 삭제
-exports.delete = async (req,res,next) =>{};
+exports.delete = async (req,res,next) =>{
+try{
+    // 삭제할 게시물
+    const article = await Article.findById(req.params.id);
+
+    if(!article){
+        const err =new Error("Article not found")
+        err.status = 404;
+        throw err;
+    } 
+
+    // 본인게시물이 아닌경우
+    if(req.user._id.toString() !== article.author.toString()){
+        const err = new Error("Author is not correct")
+        err.status = 400;
+        throw err;
+    }
+
+    await article.deleteOne();
+
+    res.json({article})
+
+
+
+} catch(error){
+    next(error)
+}
+
+};
+
+
+
+
 
 // 좋아요
 exports.favorite = async(req,res,next) =>{
