@@ -1,0 +1,316 @@
+터미널을 두개 켠뒤
+
+server 
+-> npm run devstart
+
+
+client
+-> npm start
+
+
+git init
+git clone https://github.com/kimeumpyo/instagram_clone.git
+
+
+
+*필요한 프로그램*
+
+1.postman
+    https://www.postman.com/downloads/
+
+2.mongoDB
+    https://www.mongodb.com/try/download/community
+
+설명)mern stack
+    MongoDB, Express, React, and Node.js.
+
+3.express 에서 터미널 입력 사이트
+    https://expressjs.com/ko/starter/generator.html
+
+    터미널은 cmd에서
+    1) express를 설치
+        npm install express-generator -g
+    
+    2) list 확인
+        npm list -g
+    
+    3) view파일없이 서버라는 파일을 만들어라
+        express --no-view server
+    
+    4) 필요한 패키지(경로는 server안에)
+        npm install 아래 패키지들을 설치한다 띄어쓰기 하면 한번에 설치가 가능!
+        - compression
+        - cookie-parser 이미 있음
+        - cors
+        - dotenv
+        - express-validator
+        - http-errors
+        - jsonwebtoken
+        - luxon
+        - mongoose
+        - morgan
+        - multer
+        - passport
+        - passport-jwt
+    
+    5) app.js에서 패키지를 가져온다
+    6) server안에 .env파일을 생성 (환경변수) 데이터베이스, 토큰에 사용되는 시크릿
+    7) (설명)mvc patten
+        - model
+        - controller
+        - view
+    
+    8) server안에 models파일 생성
+        - Article.js
+        - Comment.js
+        - Favorite.js
+        - Follow.js
+        - User.js
+    
+    9) User.js 작성
+        - Schema (유저데이터의 구조)
+            https://www.fivetran.com/learn/what-is-a-database-schema
+        - token :  증명!
+            https://www.vaadata.com/blog/jwt-tokens-and-security-working-principles-and-use-cases/
+            https://hanamon.kr/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-http-http%EB%9E%80-%ED%8A%B9%EC%A7%95-%EB%AC%B4%EC%83%81%ED%83%9C-%EB%B9%84%EC%97%B0%EA%B2%B0%EC%84%B1/
+    
+    10) Article.js 작성
+    11) Favorite.js 작성
+    12) Comment.js 작성
+    13) server안에 controller 폴더생성
+    14) controller파일생성
+        - articleController.js
+        - commentController.js
+        - profileController.js
+        - userController.js
+
+    15) userCOntroller.js 작성
+    16) articleController.js 작성
+    17) commentController.js 작성
+    18) profileController.js 작성
+    
+    19) server안에 auth 폴더생성
+    20) auth 폴더 안에 jwtStrategy.js 생성 및 작성
+
+    21) server안에 utils 폴더생성
+    22) utils 폴더 안에 fileHandler.js 생성 및 작성
+
+    23) server안에 files 폴더생성
+    24) files 폴더 안에 articles(게시물사진), profiles(프로필사진) 폴더생성
+
+    25) routes에 users.js는 필요없으니 삭제
+    26) routes의 index.js 작성
+
+    참고 사이트
+    https://www.passportjs.org/packages/
+
+    27) server안에 seed.js 생성 및 작성
+    28) files에 이미지파일을 넣어준다
+
+    29) 터미널에서 server로 경로를 이동
+
+    30) 터미널에 
+    node seed mongodb://127.0.0.1:27017/instagram_clone_db 를 입력
+    'instagram_clone_db 이부분이 폴더이름'
+
+    31) package.json 에서 scripts에 
+    "devstart": "nodemon ./bin/www" 작성 (실행시키기 전에 작성필요!)
+
+    32) 터미널에서 npm run devstart 작성
+
+    33) postman 실행
+        - Collections 에서 + 버튼 추가 
+        - 이름 변경후 GET구간에 localhost:3000/api 작성
+        - send 버튼 클릭
+
+    34) userController.js 유효성 검사 문장작성
+        - findOne (MongoDB) 에 데이터가 있는지 확인
+
+    35) postman프로그램에서 users파일 추가
+        - post
+        - localhost:3000/api/users
+        - body
+        - raw
+        - Json 형식
+
+    36) 형식에 맞춰서 작성
+        예) 실패 (password 최소길이가 5이기 때문에 실패!)
+            {
+            "username": "bunny",
+            "email": "bunny@example.com",
+            "password": "123",
+            "fullName": "토끼"
+            } 
+        예) 성공
+            {
+            "username": "bunny",
+            "email": "bunny@example.com",
+            "password": "12345",
+            "fullName": "토끼"
+            } 
+
+    37)  postman프로그램에서 login파일 추가  .
+        - post
+        - localhost:3000/api/user/login
+        - body
+        - raw
+        - Json 형식
+        형식에 맞춰서 작성)
+        {
+            "email": "bunny@example.com",
+            "password": "12345"
+        }
+
+        routes -> index.js파일 참고
+    
+    38) postman프로그램에서 user 파일 추가
+        - put
+        - localhost:3000/api/user
+        - body
+        - raw
+        - Json 형식
+        - auth 에서 type Bearer token에서 
+            로그인 할때 사용했던 토큰을 붙여넣어준다
+            
+        - 형식에 맞춰서 작성)
+        {
+            "bio": "안녕하세요 ~.~"
+        }
+
+    39) articleController.js 작성
+    
+    40) postman프로그램에서 articles 파일 추가
+        - GET
+        - localhost:3000/api/articles
+        - auth
+        - Bearer token 확인
+        - localhost:3000/api/articles?username=cat 확인
+
+    41) postman프로그램에서 article 파일 추가
+        - GET
+        - localhost:3000/api/articles/647dbe86cfa0b9b259a37d7e
+            647dbe86cfa0b9b259a37d7e : 가장최신 게시물_id
+        - auth
+        - Bearer token 확인
+
+    42) postman프로그램에서 favorite_like 파일 추가
+        - post
+        - localhost:3000/api/articles/647dbe86cfa0b9b259a37d7e/favorite
+
+    43) postman프로그램에서 favorite_delete 파일 추가
+        - delete
+        - localhost:3000/api/articles/647dbe86cfa0b9b259a37d7e/favorite
+
+    44) postman프로그램에서 articles_inserte 파일 추가
+        - post
+        - localhost:3000/api/articles
+        - auth token
+        - body -> form-data
+        - photos 와 description 작성
+    
+    45) postman프로그램에서 articles_delete 파일 추가
+        - delete
+        - localhost:3000/api/articles/6482ff00558b8cd4f545dad0 생성했던이미지 아이디(_id)
+        - auth token
+    
+    46) postman프로그램에서 feed 파일 추가
+        - get
+        - localhost:3000/api/feed
+        - 게시물 확인
+
+    47) commentController 작성
+
+    48) postman프로그램에서 comment 파일 추가
+        - post
+        - localhost:3000/api/articles/647dbe86cfa0b9b259a37d7e/comments
+        - auth token
+        - body -> raw -> json
+        - 형식에 맞춰서 작성)
+            {
+                "content": "굿굿"
+            }
+    
+    49) postman프로그램에서 comment_delete 파일 추가
+        - delete
+        - localhost:3000/api/comments/648315ccc9d482dfb294ba3c
+
+    50) postman프로그램에서 comment 파일 추가 (조회)
+        - get
+        - localhost:3000/api/articles/647dbe86cfa0b9b259a37d7e/comments
+
+        profileController.js 작성
+
+    51) postman프로그램에서 follow 파일 추가
+        - post
+        - localhost:3000/api/profiles/cat/follow
+        - auth -> token
+
+    52) postman프로그램에서 follow_delete 파일 추가 (삭제)
+        - delete
+        - localhost:3000/api/profiles/cat/follow
+        - auth -> token
+
+    53) postman프로그램에서 profiles 파일 추가 (조회)
+        - get
+        - localhost:3000/api/profiles
+        - auth -> token
+    
+    54) postman프로그램에서 profiles_user 파일 추가 (개인조회)
+        - get
+        - localhost:3000/api/profiles/cat
+        - auth -> token
+    
+    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+
+    55) instagram_clone 폴더에서
+        - npx create-react-app client 를 해서 폴더를 만들어준다
+        - client 경로에 
+            - npm install react-router-dom
+            - npm istaill tailwindcss
+            - npx tailwindcss init 
+        - tailwind.config.js 에서 content 에 "./src/**/*.js" 적어준다
+
+    56) src -> index.css 작성
+        -   @tailwind base;
+            @tailwind components;
+            @tailwind utilities;
+
+    57) .env파일 생성
+        REACT_APP_SERVER="http://localhost:3000/api"
+
+    58) public 에서
+        - index.html title을 Instagram으로 수정
+        - favicon.ico을 넣어준다 
+        - images 폴더생성 logo 이미지 넣기
+
+    59) src폴더에 utils생성
+        - requests.js 생성 및 작성 (요청함수)
+    
+    60) src폴더에 components폴더생성
+        
+        (생성 및 작성)
+        - Accounts.js 
+        - ArticleCreate.js 
+        - ArticleTemplate.js
+        - ArticleView.js
+        - AuthContext.js
+        - AuthProvider.js
+        - AuthRequired.js
+        - Carousel.js
+        - Comments.js
+        - Feed.js
+        - FollowerList.js
+        - FollowingList.js
+        - Layout.js
+        - Login.js
+        - NotFound.js
+        - Profile.js
+        - Search.js
+        - SignUp.js
+        - Spinner.js
+        - Timeline.js
+
+    61) src 
+        - index.js 작성
+        - App.js 작성
