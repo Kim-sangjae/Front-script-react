@@ -12,17 +12,72 @@ export default function Accounts(){
     const [updatedUser, setUpdatedUser] = useState({});
 
 
-    console.log(updateUser) // 업데이트 추적
+    console.log(updatedUser) // 업데이트 추적
 
+   
 
     // 폼 제출처리
-    async function handleSubmit(e) {}
+    async function handleSubmit(e) {
+        try{
+            e.preventDefault();
+            
+            // 서버에 전송할 데이터
+            console.log(updatedUser);
+
+            // 업데이트 할 정보를 폼데이터에 저장
+            const formData = new FormData();
+
+            Object.keys(updatedUser).forEach(prop=>{
+                // formData.append(key , value)
+                formData.append(prop,updatedUser[prop]);
+            })
+        
+            // 서버에 폼데이터를 전송한다
+            const data = await updateUser(formData);
+
+            // 유저를 업데이트 한다
+            setUser(data.user);
+
+            // 업데이트 후에 변경사항을 다시 초기화 한다
+            setUpdatedUser({});
+
+            alert("변경사항 저장이 완료되었습니다.")
+        
+
+
+        }catch(error){
+            alert(error)
+        }
+    }
+
+
 
     // 파일 처리
-    function handleFile(e){}
+    function handleFile(e){
+        const file = e.target.files[0];
+
+        console.log(file);
+
+        if(file){
+            // avatar 의 속성값으로 파일을 추가
+            setUpdatedUser({ ...updatedUser,avatar:file});
+        }
+    }
+
 
     // 인풋 데이터 처리
-    function handleChange(e){}
+    function handleChange(e){
+        const name = e.target.name;
+        const value = e.target.value;
+
+        //수정이 취소된 속성을 제거
+        if(user[name] === value){
+            const{[name]:value , ...rest} = updatedUser;
+            return setUpdatedUser(rest);
+        }
+
+        setUpdatedUser({ ...updatedUser,[name]:value});
+    }
 
     // 타이틀 업데이트
     useEffect(()=>{
@@ -110,7 +165,7 @@ export default function Accounts(){
                     <button
                         type="submit"
                         className="text-sm font-semibold bg-gray-200 rounded-lg px-4 py-2 disabled:opacity-[0.2]"
-                        disabled={Object.keys(updatedUser).length<1} > 저장 
+                        disabled={Object.keys(updatedUser).length < 1} > 저장 
                     </button>
                     <Link
                         to={`/profiles/${user.username}`}
