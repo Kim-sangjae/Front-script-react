@@ -58,10 +58,33 @@ export default function Profile(){
     }
 
     // 팔로우 처리
-    async function handlefollow(){}
+    async function handlefollow(){
+        try{
+            // 서버요청
+            await follow(username)
+
+            // 프로필 업데이트
+            setProfile({...profile,isFollowing:true})
+
+        }catch(error){
+            alert(error)
+        }
+    }
 
     // 언팔로우 처리
-    async function handleUnfollow(){}
+    async function handleUnfollow(){
+        try{
+            // 서버요청
+            await unfollow(username)
+
+            // 프로필 업데이트
+            setProfile({...profile,isFollowing:false})
+            
+        }catch(error){
+            alert(error)
+        }
+
+    }
 
 
     // 타이틀 업데이트
