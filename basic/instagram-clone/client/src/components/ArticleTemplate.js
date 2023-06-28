@@ -62,7 +62,7 @@ export default function ArticleTemplate({article,handleDelete,handleFavorite,han
                         src={`${process.env.REACT_APP_SERVER}/files/profiles/${article.author.avatar}`}
                         className="w-10 h-10 object-cover border rounded-full"
                     />
-                    <span className="ml-2">
+                    <span className="ml-2 font-bold">
                         {article.author.username}
                     </span>
                 </Link>

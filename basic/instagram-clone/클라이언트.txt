@@ -15,6 +15,17 @@ git init
 git clone https://github.com/kimeumpyo/instagram_clone.git
 
 
+-----------
+디플로이 
+
+1. 데이터비에스 -  MongoDb Atlas(몽고db 클라우드)
+2. API 서버 - 대부분 유료,Railway
+3. 프론트엔드 - 깃헙페이지 , Netlify 
+
+-----------
+
+
+
 
 *필요한 프로그램*
 
